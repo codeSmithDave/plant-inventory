@@ -34,3 +34,22 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+## App though process & progression
+- Initial system thoughts:
+ - Frontend:
+  - CSV File Upload: Accept CSV files from users via drag & drop or file selection, then send securely to the backend.
+  - Data Retrieval: Request dataset from the backend using a custom, pagination-ready API.
+  - Display: Render the requested data in a table component.
+  - Pagination: Implement pagination controls on the frontend, with each page change triggering a new API request to fetch only the relevant subset of data (not loading all rows at once). This approach optimizes performance and prevents browser crashes with large datasets (1+ million rows)
+ 
+ - Backend:
+  - File Processing: Receive uploaded CSV files, scan and validate them for safety (e.g., confirm file type, check for malicious content).
+  - Data Sanitization: Iterate through each row, sanitize input to prevent SQL injection, and save cleaned data into the database.
+  - API Design: Expose a GET API endpoint supporting pagination, enabling the frontend to request specific pages of data efficiently
+
+- Added:
+ - Test data for initial frontend testing
+ - react-data-table-component dependency to app; used to create the table displaying dataset on frontend
+
