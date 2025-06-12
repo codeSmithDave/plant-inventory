@@ -50,6 +50,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
   - API Design: Expose a GET API endpoint supporting pagination, enabling the frontend to request specific pages of data efficiently
 
 - Added:
- - Test data for initial frontend testing
+features/data-table:
+ - test data for initial frontend testing
  - react-data-table-component dependency to app; used to create the table displaying dataset on frontend
 
+features/csv-uploader:
+ - create initial file uploader UIs, simple file validation
+ - create new alert component (this would be used sitewide to display messages to the user); for now used to display messages relating to the file upload
