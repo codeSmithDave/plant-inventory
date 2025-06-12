@@ -1,4 +1,5 @@
 import Table from "@/components/Table";
+import { Plant } from "@/types/Plant";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import DataTable from "react-data-table-component";

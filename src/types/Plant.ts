@@ -1,4 +1,4 @@
-interface Plant{
+export interface Plant{
     id: number,
     scientificName: string,
     verbatimTaxonRanks: string,
