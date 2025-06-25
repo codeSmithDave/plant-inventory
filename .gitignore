@@ -17,12 +17,17 @@ node_modules
 .next
 out
 
+# backend
+bin
+obj
+
 # production
 build
 
 # misc
 .DS_Store
 *.pem
+.vscode
 
 # debug
 npm-debug.log*
