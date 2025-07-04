@@ -1,5 +1,6 @@
 'use client';
 
+import { Plant } from "@/types/Plant";
 import DataTable from "react-data-table-component";
 import { ExpanderComponentProps } from "react-data-table-component";
 
