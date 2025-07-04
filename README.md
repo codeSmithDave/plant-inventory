@@ -57,3 +57,11 @@ features/data-table:
 features/csv-uploader:
  - create initial file uploader UIs, simple file validation
  - create new alert component (this would be used sitewide to display messages to the user); for now used to display messages relating to the file upload
+
+
+features/initialPlantApiSetup:
+ - create initial Plant and Family models
+ - define enums for model properties: TaxonomicStatus and VerbatimTaxonRanks
+ - add PlantsController with basic HTTP GET (all) and GET by ID endpoints
+ - add temporary test data to PlantsController (to be replaced by DB)
+ - add API versioning support (Asp.Versioning.Mvc, Asp.Versioning.Mvc.ApiExplorer)
