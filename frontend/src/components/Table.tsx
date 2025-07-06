@@ -22,6 +22,11 @@ export default function Table(props: Props){
           sortable: true,
         },
         {
+          name: 'Family Name / ID',
+          selector: (row: Plant) => row.familyId,
+          sortable: true,
+        },
+        {
           name: 'Verbatim Taxonomy Ranks',
           selector: (row: Plant) => row.verbatimTaxonRanks,
           sortable: true,
@@ -43,12 +48,12 @@ export default function Table(props: Props){
 
     return(
         <DataTable
-			columns={tableColumns}
-			data={props.plants}
-            selectableRows
-            // pagination -> causes hydration errors + no longer needed; will create custom pagination to deal with larga dataset
-            // expandableRows
-            // expandableRowsComponent={ExpandedComponent}
-		/>
+          columns={tableColumns}
+          data={props.plants}
+          selectableRows
+          // pagination -> causes hydration errors + no longer needed; will create custom pagination to deal with larga dataset
+          // expandableRows
+          // expandableRowsComponent={ExpandedComponent}
+        />
     );
 }
