@@ -14,7 +14,8 @@ public class PlantsController : ControllerBase{
         new Plant { PlantId = 2, FamilyId = 2, ScientificName = "Malus domestica2", VerbatimTaxonRanks = VerbatimTaxonRank.Subspecies, TaxonomicStatus = TaxonomicStatus.Unchecked, TaxonRemarks = "Damask rose, cultivated for its fine fragrance", References = "https://en.wikipedia.org/wiki/Rosa_damascena" },
         new Plant { PlantId = 3, FamilyId = 3, ScientificName = "Malus domestica3", VerbatimTaxonRanks = VerbatimTaxonRank.Species, TaxonomicStatus = TaxonomicStatus.Unchecked, TaxonRemarks = "Damask rose, cultivated for its fine fragrance", References = "https://en.wikipedia.org/wiki/Rosa_damascena" },
         new Plant { PlantId = 4, FamilyId = 2, ScientificName = "Malus domestica4", VerbatimTaxonRanks = VerbatimTaxonRank.Subspecies, TaxonomicStatus = TaxonomicStatus.Accepted, TaxonRemarks = "Damask rose, cultivated for its fine fragrance", References = "https://en.wikipedia.org/wiki/Rosa_damascena" },
-        new Plant { PlantId = 5, FamilyId = 2, ScientificName = "Malus domestica5", VerbatimTaxonRanks = VerbatimTaxonRank.Species, TaxonomicStatus = TaxonomicStatus.Synonym, TaxonRemarks = "Damask rose, cultivated for its fine fragrance", References = "https://en.wikipedia.org/wiki/Rosa_damascena" }
+        new Plant { PlantId = 5, FamilyId = 2, ScientificName = "Malus domestica5", VerbatimTaxonRanks = VerbatimTaxonRank.Species, TaxonomicStatus = TaxonomicStatus.Synonym, TaxonRemarks = "Damask rose, cultivated for its fine fragrance", References = "https://en.wikipedia.org/wiki/Rosa_damascena" },
+        new Plant { PlantId = 6, FamilyId = 2, ScientificName = "TEST-6", VerbatimTaxonRanks = VerbatimTaxonRank.Species, TaxonomicStatus = TaxonomicStatus.Synonym, TaxonRemarks = "This is a test, cultivated for its fine fragrance", References = "https://en.wikipedia.org/wiki/Rosa_damascena" }
     };
 
     [HttpGet]
