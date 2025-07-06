@@ -1,5 +1,7 @@
 export interface Plant{
-    id: number,
+    plantId: number,
+    familyId: number,
+    familyName: string,
     scientificName: string,
     verbatimTaxonRanks: string,
     taxonomicStatus: string,

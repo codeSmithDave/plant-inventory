@@ -65,3 +65,10 @@ features/initialPlantApiSetup:
  - add PlantsController with basic HTTP GET (all) and GET by ID endpoints
  - add temporary test data to PlantsController (to be replaced by DB)
  - add API versioning support (Asp.Versioning.Mvc, Asp.Versioning.Mvc.ApiExplorer)
+
+
+ features/frontendInitialApiConnection:
+  - add axios dependency for api calls
+  - create basic axios api calls and singleton; add some error catching
+  - add new test data to the backend PlantsController sample
+  - display sample data on the frontend (split in 2 sections, 1 displaying record received via ID, and the next section displaying all records)
