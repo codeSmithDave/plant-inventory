@@ -69,3 +69,6 @@ features/initialPlantApiSetup:
 
  features/frontendInitialApiConnection:
   - add axios dependency for api calls
+  - create basic axios api calls and singleton; add some error catching
+  - add new test data to the backend PlantsController sample
+  - display sample data on the frontend (split in 2 sections, 1 displaying record received via ID, and the next section displaying all records)
