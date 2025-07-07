@@ -1,4 +1,5 @@
 import Table from "@/components/Table";
+import TableContainer from "@/components/TableContainer";
 import { getAllPlants, getPlantById } from "@/services/plantService";
 import { Plant } from "@/types/Plant";
 import dynamic from "next/dynamic";
@@ -26,9 +27,10 @@ export default async function Home() {
         
         <section>
           <h2>Multi-record table</h2>
-          <Table
+          {/* <Table
             plants={plants}
-          ></Table>
+          ></Table> */}
+          <TableContainer plants={plants} />
         </section>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
