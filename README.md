@@ -58,7 +58,6 @@ features/csv-uploader:
  - create initial file uploader UIs, simple file validation
  - create new alert component (this would be used sitewide to display messages to the user); for now used to display messages relating to the file upload
 
-
 features/initialPlantApiSetup:
  - create initial Plant and Family models
  - define enums for model properties: TaxonomicStatus and VerbatimTaxonRanks
@@ -66,9 +65,13 @@ features/initialPlantApiSetup:
  - add temporary test data to PlantsController (to be replaced by DB)
  - add API versioning support (Asp.Versioning.Mvc, Asp.Versioning.Mvc.ApiExplorer)
 
-
  features/frontendInitialApiConnection:
   - add axios dependency for api calls
   - create basic axios api calls and singleton; add some error catching
   - add new test data to the backend PlantsController sample
   - display sample data on the frontend (split in 2 sections, 1 displaying record received via ID, and the next section displaying all records)
+
+ features/paginationSetupV1:
+  - create new TableContainer component: to hold table + pagination
+  - create new Pagination component: generic pagination widget - to be used for custom pagination of table datasets
+  - install daisyUI (used to remove large css classes that are common with TailwindCSS); intrigued in testing it out to see if it should be used in future projects
