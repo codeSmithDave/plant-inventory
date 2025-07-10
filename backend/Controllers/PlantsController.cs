@@ -1,9 +1,10 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using PlantInventoryApi;
+using PlantInventoryApi.Dtos;
 using PlantInventoryApi.Enums;
 
-namespace NamespaceName.Controllers;
+namespace PlantInventoryApi.Controllers;
 
 [ApiController]
 [ApiVersion("1.0")]
@@ -18,15 +19,32 @@ public class PlantsController : ControllerBase{
         new Plant { PlantId = 6, FamilyId = 2, ScientificName = "TEST-6", VerbatimTaxonRanks = VerbatimTaxonRank.Species, TaxonomicStatus = TaxonomicStatus.Synonym, TaxonRemarks = "This is a test, cultivated for its fine fragrance", References = "https://en.wikipedia.org/wiki/Rosa_damascena" }
     };
 
-    [HttpGet]
-    public ActionResult<IEnumerable<Plant>> GetAll(){
-        return Ok(_plants);
-    }
-
     [HttpGet("{id}")]
     public ActionResult<Plant> GetById(int id){
         var plant = _plants.FirstOrDefault(p => p.PlantId == id);
 
         return plant == null ? NotFound() : Ok(plant);
+    }
+
+    [HttpGet]
+    // public async Task<ActionResult<PaginationFilterResults<Plant>>> GetPlants
+    public ActionResult<PaginationFilterResults<Plant>> GetPlants(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 2
+        ){
+            // validate the query params to confirm valid values (> 0) and offsets for pagination
+            page = page < 1 ? 1 : page;
+            pageSize = pageSize < 1 ? 1 : pageSize;
+            var offset = (page - 1) * pageSize;
+            // get total number of pages based on user input
+            var totalPages = (int)Math.Ceiling(_plants.Count() / (double)pageSize);
+            // get the paginated results
+            var result = new PaginationFilterResults<Plant>{
+                // Data = _plants.Skip(offset).Take(pageSize).ToList(),
+                Data = [.. _plants.Skip(offset).Take(pageSize)],
+                TotalPages = totalPages,
+            };
+
+            return Ok(result);
     }
 }
