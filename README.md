@@ -75,3 +75,7 @@ features/initialPlantApiSetup:
   - create new TableContainer component: to hold table + pagination
   - create new Pagination component: generic pagination widget - to be used for custom pagination of table datasets
   - install daisyUI (used to remove large css classes that are common with TailwindCSS); intrigued in testing it out to see if it should be used in future projects
+
+ features/backendPaginationAPI:
+  - remove the GetAll() PlantsController method which was used in initial testing
+  - create new GetPlants() PlantsController with query params (page, and pageSize); going forward, this will be the way to request paginated or filtered plants results
