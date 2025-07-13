@@ -85,3 +85,7 @@ features/frontendApiUpdates:
  - refactor frontend components to work with new api-related interfaces:
   - PaginateConfig: contains pagination properties (current page, # of records / page)
   - PaginationFilterResults: DTO to hold data (and total # of pages) received from the API
+
+features/backendCORS
+ - fix issues related to frontend and CORS
+ - add Origin CORS policy for development environment
