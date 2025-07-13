@@ -89,3 +89,6 @@ features/frontendApiUpdates:
 features/backendCORS
  - fix issues related to frontend and CORS
  - add Origin CORS policy for development environment
+
+features/frontendApiRequests
+ - update api requests to retrieve dataset based on current page
