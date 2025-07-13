@@ -92,3 +92,7 @@ features/backendCORS
 
 features/frontendApiRequests
  - update api requests to retrieve dataset based on current page
+
+features/frontendPaginationUpdates
+ - enable the "Last" page button from the pagination component
+ -rename the "activePage" props to "currentPage" for easier readability
