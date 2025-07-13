@@ -35,7 +35,7 @@ export default function TableContainer(props: Props) {
     useEffect( () => {
         // request new records from API when the user selects a new page from pagination form
         async function fetchPlants(){
-            const plantsApiDto: PaginationFilterResults<Plant> = await getPlants(props.initialPage, props.pageSize);
+            const plantsApiDto: PaginationFilterResults<Plant> = await getPlants(paginateConfig.currentPage, paginateConfig.pageSize);
             setPlantsDto( plantsApiDto );
         }
         fetchPlants();
