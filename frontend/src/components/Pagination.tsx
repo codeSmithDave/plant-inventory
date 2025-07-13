@@ -1,7 +1,7 @@
 import { PaginateConfig } from "@/types/PaginateConfig";
 
 type Props = {
-    activePage: number,
+    currentPage: number,
     totalPages: number | undefined,
     paginateConfig: PaginateConfig
     onPageChange: (page: number) => void,
@@ -22,18 +22,16 @@ export default function Pagination(props: Props) {
                     <button aria-label="First page" className="join-item btn" onClick={() => getSelectedPage(1)}>First</button>
                 </li>
                 <li>
-                    <button aria-label="Previous page" className="join-item btn" onClick={() => getSelectedPage(props.activePage - 1)}>Previous</button>
-                </li>
-                {/* <li>...</li> */}
-                <li>
-                    <button aria-current="page" className="join-item btn btn-active">{`${props.activePage} / ${props.totalPages}`}</button>
-                </li>
-                {/* <li>...</li> */}
-                <li>
-                    <button aria-label="Next page" className="join-item btn" onClick={() => getSelectedPage(props.activePage + 1)}>Next</button>
+                    <button aria-label="Previous page" className="join-item btn" onClick={() => getSelectedPage(props.currentPage - 1)}>Previous</button>
                 </li>
                 <li>
-                    {/* <button aria-label="Last page" className="join-item btn" onClick={() => getSelectedPage(props?.totalPages)}>Last</button> */}
+                    <button aria-current="page" className="join-item btn btn-active">{`${props.currentPage} / ${props.totalPages ? props.totalPages : 1}`}</button>
+                </li>
+                <li>
+                    <button aria-label="Next page" className="join-item btn" onClick={() => getSelectedPage(props.currentPage + 1)}>Next</button>
+                </li>
+                <li>
+                    <button aria-label="Last page" className="join-item btn" onClick={() => getSelectedPage(props.totalPages ? props.totalPages : 1)}>Last</button>
                 </li>
             </ul>
         </nav>

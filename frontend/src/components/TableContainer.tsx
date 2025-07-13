@@ -49,7 +49,7 @@ export default function TableContainer(props: Props) {
             />
             <Pagination
                 paginateConfig={paginateConfig}
-                activePage={paginateConfig.currentPage}
+                currentPage={paginateConfig.currentPage}
                 totalPages={plantsDto?.totalPages}
                 onPageChange={setNewPage}
             />
