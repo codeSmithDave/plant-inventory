@@ -1,10 +1,15 @@
 import { Plant } from '@/types/Plant';
 import axiosInstance from './axiosInstance';
+import { PaginationFilterResults } from '@/types/PaginationFilterResults';
 
-// Get all plants
-export async function getAllPlants(): Promise<Plant[]> {
+// Query API endpoint for paginated plants (by default, ask for records starting on page 1, with 3 records / page)
+export async function getPlants(page: number = 1, pageSize: number = 3): Promise<PaginationFilterResults<Plant>> {
   try {
-    const response = await axiosInstance.get<Plant[]>('/plants');
+    const response = await axiosInstance.get<PaginationFilterResults<Plant>>('/plants', {
+      params: { page, pageSize }
+    });
+
+    console.log(response.data);
 
     return response.data;
   } catch (error: any) {

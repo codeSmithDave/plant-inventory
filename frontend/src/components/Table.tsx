@@ -1,12 +1,13 @@
 'use client';
 
+import { PaginationFilterResults } from "@/types/PaginationFilterResults";
 import { Plant } from "@/types/Plant";
 import DataTable from "react-data-table-component";
 import { ExpanderComponentProps } from "react-data-table-component";
 
 type Props = {
     // your props here
-    plants: Plant[]
+    plants: Plant[] | undefined
 }
 
 export default function Table(props: Props){
@@ -49,7 +50,7 @@ export default function Table(props: Props){
     return(
         <DataTable
           columns={tableColumns}
-          data={props.plants}
+          data={props.plants ? props.plants : []}
           selectableRows
           // pagination -> causes hydration errors + no longer needed; will create custom pagination to deal with larga dataset
           // expandableRows
