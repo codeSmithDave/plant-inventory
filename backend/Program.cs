@@ -1,10 +1,20 @@
 using Asp.Versioning;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var allowedOrigins = builder.Configuration["Cors:AllowedOrigins"];
 // Add services to the container.
-
 builder.Services.AddControllers();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DevCorsPolicy",
+        policy => policy
+            .WithOrigins(allowedOrigins) // Frontend origin
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+    );
+});
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -29,9 +39,12 @@ builder.Services.AddApiVersioning(options =>
 
 var app = builder.Build();
 
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseCors("DevCorsPolicy");
     app.UseSwagger();
     app.UseSwaggerUI();
     app.MapOpenApi();
