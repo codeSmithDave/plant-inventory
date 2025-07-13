@@ -79,3 +79,9 @@ features/initialPlantApiSetup:
  features/backendPaginationAPI:
   - remove the GetAll() PlantsController method which was used in initial testing
   - create new GetPlants() PlantsController with query params (page, and pageSize); going forward, this will be the way to request paginated or filtered plants results
+
+features/frontendApiUpdates:
+ - update the plantService getAllPlants() function to reflect the new paginated/filterable API created on the backend in the previous "features" branch (request plant data from api via query params)
+ - refactor frontend components to work with new api-related interfaces:
+  - PaginateConfig: contains pagination properties (current page, # of records / page)
+  - PaginationFilterResults: DTO to hold data (and total # of pages) received from the API
