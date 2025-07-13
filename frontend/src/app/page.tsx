@@ -9,7 +9,7 @@ import DataTable from "react-data-table-component";
 
 export default async function Home() {
   const initialPage = 1;
-  const pageSize = 3;
+  const pageSize = 2;
   // const plants: PaginationFilterResults<Plant> = await getPlants(currentPage, pageSize);
   // get plant by ID from the api;
   const plant: Plant = await getPlantById(6);
