@@ -95,4 +95,9 @@ features/frontendApiRequests
 
 features/frontendPaginationUpdates
  - enable the "Last" page button from the pagination component
- -rename the "activePage" props to "currentPage" for easier readability
+ - rename the "activePage" props to "currentPage" for easier readability
+
+features/databaseConnectionSetup
+ - add .env file for DB connection
+ - update appsettings.json in preparation for DB connection
+ - add SQLServer package (as of this branch, will use a local MS SQL database; may change in future if deployed somewhere -> depending on hosting costs)
