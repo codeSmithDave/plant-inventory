@@ -1,5 +1,7 @@
+using System.Threading.Tasks;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PlantInventoryApi;
 using PlantInventoryApi.Dtos;
 using PlantInventoryApi.Enums;
@@ -18,6 +20,11 @@ public class PlantsController : ControllerBase{
         new Plant { PlantId = 5, FamilyId = 2, ScientificName = "Malus domestica5", VerbatimTaxonRanks = VerbatimTaxonRank.Species, TaxonomicStatus = TaxonomicStatus.Synonym, TaxonRemarks = "Damask rose, cultivated for its fine fragrance", References = "https://en.wikipedia.org/wiki/Rosa_damascena" },
         new Plant { PlantId = 6, FamilyId = 2, ScientificName = "TEST-6", VerbatimTaxonRanks = VerbatimTaxonRank.Species, TaxonomicStatus = TaxonomicStatus.Synonym, TaxonRemarks = "This is a test, cultivated for its fine fragrance", References = "https://en.wikipedia.org/wiki/Rosa_damascena" }
     };
+    private readonly PlantInventoryDbContext _context;
+
+    public PlantsController(PlantInventoryDbContext context){
+        _context = context;
+    }
 
     [HttpGet("{id}")]
     public ActionResult<Plant> GetById(int id){
@@ -28,7 +35,7 @@ public class PlantsController : ControllerBase{
 
     [HttpGet]
     // public async Task<ActionResult<PaginationFilterResults<Plant>>> GetPlants
-    public ActionResult<PaginationFilterResults<Plant>> GetPlants(
+    public async Task<ActionResult<PaginationFilterResults<Plant>>> GetPlants(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 2
         ){
@@ -36,13 +43,25 @@ public class PlantsController : ControllerBase{
             page = page < 1 ? 1 : page;
             pageSize = pageSize < 1 ? 1 : pageSize;
             var offset = (page - 1) * pageSize;
+
             // get total number of pages based on user input
-            var totalPages = (int)Math.Ceiling(_plants.Count() / (double)pageSize);
+            // var totalPages = (int)Math.Ceiling(_plants.Count() / (double)pageSize);
             // get the paginated results
+            // var result = new PaginationFilterResults<Plant>{
+            //     // Data = _plants.Skip(offset).Take(pageSize).ToList(),
+            //     Data = [.. _plants.Skip(offset).Take(pageSize)],
+            //     TotalPages = totalPages,
+            // };
+
+            var totalCount = await _context.Plants.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+            var plants = await _context.Plants
+                .Skip(offset)
+                .Take(pageSize)
+                .ToListAsync();
             var result = new PaginationFilterResults<Plant>{
-                // Data = _plants.Skip(offset).Take(pageSize).ToList(),
-                Data = [.. _plants.Skip(offset).Take(pageSize)],
-                TotalPages = totalPages,
+                Data = plants,
+                TotalPages = 1
             };
 
             return Ok(result);

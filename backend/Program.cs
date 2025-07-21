@@ -1,9 +1,21 @@
 using Asp.Versioning;
+using Microsoft.EntityFrameworkCore;
+
+DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 var allowedOrigins = builder.Configuration["Cors:AllowedOrigins"];
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<PlantInventoryDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
 // Add services to the container.
-builder.Services.AddControllers();
+// convert the enums to strings so I see human readable values (eg: "Unchecked" instead of "0")
+builder.Services.AddControllers().AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
 
 builder.Services.AddCors(options =>
 {
@@ -38,8 +50,6 @@ builder.Services.AddApiVersioning(options =>
 });
 
 var app = builder.Build();
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

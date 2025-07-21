@@ -27,6 +27,6 @@ public class Plant{
     [Column("taxonomic_status")]
     public TaxonomicStatus TaxonomicStatus { get; set; } // this can have 3 specific values
 
-    [Column("references")]
+    [Column("plant_references")]
     public string References { get; set; } = string.Empty;
 }
