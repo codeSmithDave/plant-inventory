@@ -86,18 +86,24 @@ features/frontendApiUpdates:
   - PaginateConfig: contains pagination properties (current page, # of records / page)
   - PaginationFilterResults: DTO to hold data (and total # of pages) received from the API
 
-features/backendCORS
+features/backendCORS:
  - fix issues related to frontend and CORS
  - add Origin CORS policy for development environment
 
-features/frontendApiRequests
+features/frontendApiRequests:
  - update api requests to retrieve dataset based on current page
 
-features/frontendPaginationUpdates
+features/frontendPaginationUpdates:
  - enable the "Last" page button from the pagination component
  - rename the "activePage" props to "currentPage" for easier readability
 
-features/databaseConnectionSetup
+features/databaseConnectionSetup:
  - add .env file for DB connection
  - update appsettings.json in preparation for DB connection
  - add SQLServer package (as of this branch, will use a local MS SQL database; may change in future if deployed somewhere -> depending on hosting costs)
+ - created database context file for the connection
+
+features/dbConnectionTests:
+ - increase the number of records / page that the frontend asks for to 30
+ - update the PlantsController so it returns the actual total # of pages (initially it was returning "1")
+ - configured EF Core to automatically convert enum properties (TaxonomicStatus and VerbatimTaxonRanks) to their string names for storage in the database and vice versa
