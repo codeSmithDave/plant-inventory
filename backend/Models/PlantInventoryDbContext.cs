@@ -5,6 +5,7 @@ public class PlantInventoryDbContext : DbContext
 {
     public PlantInventoryDbContext(DbContextOptions<PlantInventoryDbContext> options) : base(options) { }
 
+    // store Plant enums TaxonomicStatus and VerbatimTaxonRanks as strings in the database (for readable varchar fields)
     protected override void OnModelCreating(ModelBuilder modelBuilder){
         modelBuilder.Entity<Plant>()
         .Property(p => p.TaxonomicStatus)

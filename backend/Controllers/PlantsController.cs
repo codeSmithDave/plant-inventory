@@ -61,7 +61,7 @@ public class PlantsController : ControllerBase{
                 .ToListAsync();
             var result = new PaginationFilterResults<Plant>{
                 Data = plants,
-                TotalPages = 1
+                TotalPages = totalPages
             };
 
             return Ok(result);
