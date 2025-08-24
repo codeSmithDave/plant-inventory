@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Alert from "./Alert";
 import { AlertType } from "@/types/AlertType";
 import { AlertContent } from "@/types/AlertContent";
+import { uploadPlantCsvFile } from "@/services/plantService";
 
 type Props = {
     
@@ -27,7 +28,6 @@ export default function FileUpload(props: Props) {
                     content: `"${userFile.name}" is ready to be uploaded!`,
                     type: AlertType.info
                 });
-
                 return;
             }
             else{
@@ -44,8 +44,23 @@ export default function FileUpload(props: Props) {
         }
     }
 
-    const handleFileUpload = () => {
+    const handleFileUpload = async () => {
         console.log("Uploading time");
+
+        if(!selectedFile){
+            setAlertMessage({
+                content: `No file is selected!`,
+                type: AlertType.error
+            });
+            
+            return;
+        }
+
+        try{
+            const response = await uploadPlantCsvFile(selectedFile);
+        }catch(error: any){
+            throw error;
+        }
     };
 
     return (

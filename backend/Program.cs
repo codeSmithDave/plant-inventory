@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 
 DotNetEnv.Env.Load();
@@ -6,9 +7,25 @@ DotNetEnv.Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 var allowedOrigins = builder.Configuration["Cors:AllowedOrigins"];
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// we set large size limit for Kestrel's request body and form parser because the plants CSV file that must be uploaded is 360MB+ (over 1 million rows)
+var mbLimit = 419430400;
+
+// update the request body limits for the Kestrel server to be max "mbLimit" (since the csv we'll upload can be several hundred MBs, which goes over the default limit)
+builder.WebHost.ConfigureKestrel( serverOptions => {
+    serverOptions.Limits.MaxRequestBodySize = mbLimit;
+});
+
+// configure the .net core form parser to accept file uploads of sizes up to 500MB
+// by default, the limit is 30MB, so anything higher is auto-rejected regardless of the body request limit set in Kestrel
+builder.Services.Configure<FormOptions>(options => {
+    options.MultipartBodyLengthLimit = mbLimit;
+});
+
 
 builder.Services.AddDbContext<PlantInventoryDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<ICsvPlantImportService, CsvPlantImportService>();
 
 // Add services to the container.
 // convert the enums to strings so I see human readable values (eg: "Unchecked" instead of "0")
