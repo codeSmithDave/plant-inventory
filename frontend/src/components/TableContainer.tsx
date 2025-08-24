@@ -39,7 +39,7 @@ export default function TableContainer(props: Props) {
             setPlantsDto( plantsApiDto );
         }
         fetchPlants();
-    }, [paginateConfig.currentPage]);
+    }, [paginateConfig.currentPage, paginateConfig.pageSize]);
     
     return (
         <div>

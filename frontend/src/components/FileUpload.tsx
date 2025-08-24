@@ -6,11 +6,7 @@ import { AlertType } from "@/types/AlertType";
 import { AlertContent } from "@/types/AlertContent";
 import { uploadPlantCsvFile } from "@/services/plantService";
 
-type Props = {
-    
-};
-
-export default function FileUpload(props: Props) {
+export default function FileUpload() {
     // holds file info from file uploader
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     // update user about various actions (give error, warning messages, etc.)
@@ -57,9 +53,13 @@ export default function FileUpload(props: Props) {
         }
 
         try{
-            const response = await uploadPlantCsvFile(selectedFile);
-        }catch(error: any){
-            throw error;
+            // const response = await uploadPlantCsvFile(selectedFile);
+            uploadPlantCsvFile(selectedFile);
+        }catch(error: unknown){
+            if(error instanceof Error)
+                throw error;
+
+            throw new Error("Unknown error!");
         }
     };
 

@@ -115,3 +115,6 @@ features/handleFileUpload:
  - enforce form data size limits, specifically for file uploads - default is 30MB which is much lower than what I need to upload (current dataset csv is ~360MB)
  - create system that reads the file;
  - TODO: validate data and insert it into the database
+
+features/CIsetup:
+ - set up CI/CD file (continuous integration/continuous deployment with GitHub Actions)
