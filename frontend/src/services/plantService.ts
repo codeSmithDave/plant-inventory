@@ -5,8 +5,13 @@ import { PaginationFilterResults } from '@/types/PaginationFilterResults';
 // Query API endpoint for paginated plants (by default, ask for records starting on page 1, with 3 records / page)
 export async function getPlants(page: number = 1, pageSize: number = 3): Promise<PaginationFilterResults<Plant>> {
   try {
-    const response = await axiosInstance.get<PaginationFilterResults<Plant>>('/plants', {
-      params: { page, pageSize }
+    const response = await axiosInstance.get<PaginationFilterResults<Plant>>(
+      '/plants',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        params: { page, pageSize },
     });
 
     console.log(response.data);
@@ -30,7 +35,14 @@ export async function getPlants(page: number = 1, pageSize: number = 3): Promise
 // Get plant by ID
 export async function getPlantById(id: number): Promise<Plant> {
   try{
-    const response = await axiosInstance.get<Plant>(`/plants/${id}`);
+    const response = await axiosInstance.get<Plant>(
+      `/plants/${id}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
     return response.data;
   } catch (error: any) {
@@ -45,5 +57,31 @@ export async function getPlantById(id: number): Promise<Plant> {
       console.error('Axios error:', error.message);
       throw new Error('An unexpected error occurred.');
     }
+  }
+}
+
+// change the "any" Promise to something more relevant later on (after deciding what to send back from the backend)
+export async function uploadPlantCsvFile(file: File): Promise<any> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  for (const [key, value] of formData.entries()) {
+    console.log(key, value); // should see "file" and the File object
+  }
+
+  try{
+    const response = await axiosInstance.post(
+      `FileUpload/upload-csv`,
+      formData,
+      {
+        headers: {
+          // 'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+
+    return response.data;
+  }catch(error: any){
+    throw error;
   }
 }

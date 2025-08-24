@@ -36,7 +36,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 
-## App though process & progression
+## App thought process & progression
 - Initial system thoughts:
  - Frontend:
   - CSV File Upload: Accept CSV files from users via drag & drop or file selection, then send securely to the backend.
@@ -107,3 +107,11 @@ features/dbConnectionTests:
  - increase the number of records / page that the frontend asks for to 30
  - update the PlantsController so it returns the actual total # of pages (initially it was returning "1")
  - configured EF Core to automatically convert enum properties (TaxonomicStatus and VerbatimTaxonRanks) to their string names for storage in the database and vice versa
+
+features/handleFileUpload:
+ - create file upload api endpoint used to retrieve CSV file from the frontend
+ - set up POST request on the frontend to send the CSV file to the backend
+ - enforce Kestrel server body request size limits (default were too small for the large dataset file)
+ - enforce form data size limits, specifically for file uploads - default is 30MB which is much lower than what I need to upload (current dataset csv is ~360MB)
+ - create system that reads the file;
+ - TODO: validate data and insert it into the database
