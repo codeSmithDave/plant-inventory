@@ -1,9 +1,9 @@
 'use client';
 
-import { PaginationFilterResults } from "@/types/PaginationFilterResults";
+// import { PaginationFilterResults } from "@/types/PaginationFilterResults";
 import { Plant } from "@/types/Plant";
 import DataTable from "react-data-table-component";
-import { ExpanderComponentProps } from "react-data-table-component";
+// import { ExpanderComponentProps } from "react-data-table-component";
 
 type Props = {
     // your props here
