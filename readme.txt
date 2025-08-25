@@ -1,0 +1,84 @@
+
+## App thought process & progression
+
+- Initial system thoughts:
+ - Frontend:
+  - CSV File Upload: Accept CSV files from users via drag & drop or file selection, then send securely to the backend.
+  - Data Retrieval: Request dataset from the backend using a custom, pagination-ready API.
+  - Display: Render the requested data in a table component.
+  - Pagination: Implement pagination controls on the frontend, with each page change triggering a new API request to fetch only the relevant subset of data (not loading all rows at once). This approach optimizes performance and prevents browser crashes with large datasets (1+ million rows)
+ 
+ - Backend:
+  - File Processing: Receive uploaded CSV files, scan and validate them for safety (e.g., confirm file type, check for malicious content).
+  - Data Sanitization: Iterate through each row, sanitize input to prevent SQL injection, and save cleaned data into the database.
+  - API Design: Expose a GET API endpoint supporting pagination, enabling the frontend to request specific pages of data efficiently
+
+- Added:
+features/data-table:
+ - test data for initial frontend testing
+ - react-data-table-component dependency to app; used to create the table displaying dataset on frontend
+
+features/csv-uploader:
+ - create initial file uploader UIs, simple file validation
+ - create new alert component (this would be used sitewide to display messages to the user); for now used to display messages relating to the file upload
+
+features/initialPlantApiSetup:
+ - create initial Plant and Family models
+ - define enums for model properties: TaxonomicStatus and VerbatimTaxonRanks
+ - add PlantsController with basic HTTP GET (all) and GET by ID endpoints
+ - add temporary test data to PlantsController (to be replaced by DB)
+ - add API versioning support (Asp.Versioning.Mvc, Asp.Versioning.Mvc.ApiExplorer)
+
+ features/frontendInitialApiConnection:
+  - add axios dependency for api calls
+  - create basic axios api calls and singleton; add some error catching
+  - add new test data to the backend PlantsController sample
+  - display sample data on the frontend (split in 2 sections, 1 displaying record received via ID, and the next section displaying all records)
+
+ features/paginationSetupV1:
+  - create new TableContainer component: to hold table + pagination
+  - create new Pagination component: generic pagination widget - to be used for custom pagination of table datasets
+  - install daisyUI (used to remove large css classes that are common with TailwindCSS); intrigued in testing it out to see if it should be used in future projects
+
+ features/backendPaginationAPI:
+  - remove the GetAll() PlantsController method which was used in initial testing
+  - create new GetPlants() PlantsController with query params (page, and pageSize); going forward, this will be the way to request paginated or filtered plants results
+
+features/frontendApiUpdates:
+ - update the plantService getAllPlants() function to reflect the new paginated/filterable API created on the backend in the previous "features" branch (request plant data from api via query params)
+ - refactor frontend components to work with new api-related interfaces:
+  - PaginateConfig: contains pagination properties (current page, # of records / page)
+  - PaginationFilterResults: DTO to hold data (and total # of pages) received from the API
+
+features/backendCORS:
+ - fix issues related to frontend and CORS
+ - add Origin CORS policy for development environment
+
+features/frontendApiRequests:
+ - update api requests to retrieve dataset based on current page
+
+features/frontendPaginationUpdates:
+ - enable the "Last" page button from the pagination component
+ - rename the "activePage" props to "currentPage" for easier readability
+
+features/databaseConnectionSetup:
+ - add .env file for DB connection
+ - update appsettings.json in preparation for DB connection
+ - add SQLServer package (as of this branch, will use a local MS SQL database; may change in future if deployed somewhere -> depending on hosting costs)
+ - created database context file for the connection
+
+features/dbConnectionTests:
+ - increase the number of records / page that the frontend asks for to 30
+ - update the PlantsController so it returns the actual total # of pages (initially it was returning "1")
+ - configured EF Core to automatically convert enum properties (TaxonomicStatus and VerbatimTaxonRanks) to their string names for storage in the database and vice versa
+
+features/handleFileUpload:
+ - create file upload api endpoint used to retrieve CSV file from the frontend
+ - set up POST request on the frontend to send the CSV file to the backend
+ - enforce Kestrel server body request size limits (default were too small for the large dataset file)
+ - enforce form data size limits, specifically for file uploads - default is 30MB which is much lower than what I need to upload (current dataset csv is ~360MB)
+ - create system that reads the file;
+ - TODO: validate data and insert it into the database
+
+features/CIsetup:
+ - set up CI/CD file (continuous integration/continuous deployment with GitHub Actions)

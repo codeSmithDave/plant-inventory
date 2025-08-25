@@ -1,120 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Plant Inventory Application
 
-## Getting Started
+## Table of Contents
 
-First, run the development server:
+- [Purpose](#purpose)
+- [Overview](#overview)
+- [Tech Stack & Dependencies](#tech-stack--dependencies)
+- [Key Features](#key-features)
+- [Current Status](#current-status)
+- [Future Work](#future-work)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Purpose
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This project was built to solve the problem of efficiently managing and visualizing large-scale datasets (in this case, plant records) via a modern, full-stack web application. The goal is to demonstrate handling real-world CSV bulk uploads, robust backend processing, paginated REST API design, and scalable data presentation in the frontend.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Overview
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+![Plant Inventory Table](./images/plant-inventory.JPG)
 
-## Learn More
+This application provides a scalable plant inventory dashboard designed to handle large datasets (1+ million rows). The core functionality allows users to upload CSV files containing plant data through a Next.js frontend using TypeScript, which are then securely sent to the backend for processing and eventual storage in a Microsoft SQL Server database.
 
-To learn more about Next.js, take a look at the following resources:
+The frontend presents a paginated, searchable table of plants retrieved from the backend via a parameterized REST API. Efficient pagination and API-driven data retrieval to ensure smooth performance with large datasets. The backend is built with ASP.NET Core 9.0, connected to a local MS SQL database via Entity Framework Core, incorporating API versioning.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech Stack & Dependencies
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Frontend
+- Next.js 15 (App Router, TypeScript)
+- React 19
+- axios (API requests)
+- react-data-table-component (tabular data display)
+- TailwindCSS 4, daisyUI
+- TypeScript, ESLint, Turbopack
 
-## Deploy on Vercel
+### Backend
+- ASP.NET Core 9 (controller-based Web API)
+- Entity Framework Core (with SQL Server)
+- CsvHelper (CSV file reading/parsing)
+- DotNetEnv (environment variable management)
+- API Versioning: Asp.Versioning.Mvc, Asp.Versioning.Mvc.ApiExplorer
+- Swashbuckle.AspNetCore (Swagger/OpenAPI docs)
+- Microsoft.EntityFrameworkCore.SqlServer
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Database
+- Microsoft SQL Server (local development)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### DevOps
+- GitHub Actions (CI setup)
+- Kestrel Server (configured for large uploads)
+- Environment-based CORS policy (`http://localhost:3000` for development)
 
+## Key Features
 
-## App thought process & progression
-- Initial system thoughts:
- - Frontend:
-  - CSV File Upload: Accept CSV files from users via drag & drop or file selection, then send securely to the backend.
-  - Data Retrieval: Request dataset from the backend using a custom, pagination-ready API.
-  - Display: Render the requested data in a table component.
-  - Pagination: Implement pagination controls on the frontend, with each page change triggering a new API request to fetch only the relevant subset of data (not loading all rows at once). This approach optimizes performance and prevents browser crashes with large datasets (1+ million rows)
- 
- - Backend:
-  - File Processing: Receive uploaded CSV files, scan and validate them for safety (e.g., confirm file type, check for malicious content).
-  - Data Sanitization: Iterate through each row, sanitize input to prevent SQL injection, and save cleaned data into the database.
-  - API Design: Expose a GET API endpoint supporting pagination, enabling the frontend to request specific pages of data efficiently
+### Frontend
+![Plant Inventory File upload](./images/plant-inventory-fileupload.JPG)
+- **CSV File Upload:** Users can upload large CSV files (~360MB) through drag & drop or file selection on the dashboard.
+- **Frontend Table Display:** Plant records are rendered in a responsive, paginated data table using React, axios, and react-data-table-component.
+- **Styling & UI:** Uses TailwindCSS and daisyUI for clean, minimal UI components.
+- **Dev Tooling:** TypeScript, ESLint, and Turbopack used for robust development experience.
 
-- Added:
-features/data-table:
- - test data for initial frontend testing
- - react-data-table-component dependency to app; used to create the table displaying dataset on frontend
+### Backend
+- **Controller-based ASP.NET Core Web API:** Backend is structured with controllers to expose API endpoints, integrating seamlessly with Entity Framework Core for data access and supporting scalable, maintainable REST architecture.
+- **API Versioning:** Uses Asp.Versioning.Mvc packages for API versioning.
+- **Backend File Processing:** CSV files are received and validated by the backend API (currently reading files with CsvHelper, with planned transformation and insertion into the database).
+- **Paginated Data API:** Exposes a GET endpoint that supports parameterized pagination (page, pageSize) for efficient data requests.
+- **Database Integration:** Local MS SQL Server database with EF Core managing data access, including conversion of enum properties to strings for storage.
+- **CI/CD Pipeline:** Continuous Integration configured via GitHub Actions; Continuous Deployment workflow pending.
 
-features/csv-uploader:
- - create initial file uploader UIs, simple file validation
- - create new alert component (this would be used sitewide to display messages to the user); for now used to display messages relating to the file upload
+## Current Status
 
-features/initialPlantApiSetup:
- - create initial Plant and Family models
- - define enums for model properties: TaxonomicStatus and VerbatimTaxonRanks
- - add PlantsController with basic HTTP GET (all) and GET by ID endpoints
- - add temporary test data to PlantsController (to be replaced by DB)
- - add API versioning support (Asp.Versioning.Mvc, Asp.Versioning.Mvc.ApiExplorer)
+- Frontend supports CSV file uploads and displays paginated plant data fetched from the backend.
+- Backend can receive large CSV files and read them, but data transformation and database insertion are yet to be implemented.
+- Backend API fully supports paginated data retrieval integrated with the frontend.
+- Large file upload size limits have been adjusted in the backend to handle the ~360MB dataset.
 
- features/frontendInitialApiConnection:
-  - add axios dependency for api calls
-  - create basic axios api calls and singleton; add some error catching
-  - add new test data to the backend PlantsController sample
-  - display sample data on the frontend (split in 2 sections, 1 displaying record received via ID, and the next section displaying all records)
+## Future Work
 
- features/paginationSetupV1:
-  - create new TableContainer component: to hold table + pagination
-  - create new Pagination component: generic pagination widget - to be used for custom pagination of table datasets
-  - install daisyUI (used to remove large css classes that are common with TailwindCSS); intrigued in testing it out to see if it should be used in future projects
+- Implement backend data validation, transformation, and database insertion for full CSV processing.
+- Optimize for performance and scalability to handle datasets exceeding 1 million records.
+- Expand frontend functionality with filtering, sorting, and advanced interaction features.
+- Deploy backend and database to a cloud environment such as Azure for "production" readiness / testing.
+- Set up full Continuous Deployment pipeline aligned with existing CI workflows.
 
- features/backendPaginationAPI:
-  - remove the GetAll() PlantsController method which was used in initial testing
-  - create new GetPlants() PlantsController with query params (page, and pageSize); going forward, this will be the way to request paginated or filtered plants results
-
-features/frontendApiUpdates:
- - update the plantService getAllPlants() function to reflect the new paginated/filterable API created on the backend in the previous "features" branch (request plant data from api via query params)
- - refactor frontend components to work with new api-related interfaces:
-  - PaginateConfig: contains pagination properties (current page, # of records / page)
-  - PaginationFilterResults: DTO to hold data (and total # of pages) received from the API
-
-features/backendCORS:
- - fix issues related to frontend and CORS
- - add Origin CORS policy for development environment
-
-features/frontendApiRequests:
- - update api requests to retrieve dataset based on current page
-
-features/frontendPaginationUpdates:
- - enable the "Last" page button from the pagination component
- - rename the "activePage" props to "currentPage" for easier readability
-
-features/databaseConnectionSetup:
- - add .env file for DB connection
- - update appsettings.json in preparation for DB connection
- - add SQLServer package (as of this branch, will use a local MS SQL database; may change in future if deployed somewhere -> depending on hosting costs)
- - created database context file for the connection
-
-features/dbConnectionTests:
- - increase the number of records / page that the frontend asks for to 30
- - update the PlantsController so it returns the actual total # of pages (initially it was returning "1")
- - configured EF Core to automatically convert enum properties (TaxonomicStatus and VerbatimTaxonRanks) to their string names for storage in the database and vice versa
-
-features/handleFileUpload:
- - create file upload api endpoint used to retrieve CSV file from the frontend
- - set up POST request on the frontend to send the CSV file to the backend
- - enforce Kestrel server body request size limits (default were too small for the large dataset file)
- - enforce form data size limits, specifically for file uploads - default is 30MB which is much lower than what I need to upload (current dataset csv is ~360MB)
- - create system that reads the file;
- - TODO: validate data and insert it into the database
-
-features/CIsetup:
- - set up CI/CD file (continuous integration/continuous deployment with GitHub Actions)
